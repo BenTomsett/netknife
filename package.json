@@ -1,0 +1,38 @@
+{
+  "name": "netknife",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/server": "^11.10.0",
+    "@fluentui/react-icons": "^2.0.178",
+    "@mantine/core": "5.1.0",
+    "@mantine/hooks": "5.1.0",
+    "@mantine/next": "5.1.0",
+    "@mantine/nprogress": "^5.1.5",
+    "@mantine/prism": "^5.1.6",
+    "@types/psl": "^1.1.0",
+    "lodash": "^4.17.21",
+    "next": "12.2.5",
+    "node-dig-dns": "^0.3.2",
+    "psl": "^1.9.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.182",
+    "@types/node": "18.7.2",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "eslint": "8.21.0",
+    "eslint-config-next": "12.2.5",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "typescript": "^4.6.3"
+  }
+}
