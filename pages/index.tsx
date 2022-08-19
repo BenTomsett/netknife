@@ -1,6 +1,5 @@
 import {
-	SimpleGrid,
-	Title
+	SimpleGrid
 } from "@mantine/core";
 import {
 	ArrowForward24Regular,
@@ -60,7 +59,6 @@ export default function IndexPage() {
 
 	return (
 		<>
-			<Title order={3} style={{fontWeight: 500}}>Swiss Army knife of network-related tools</Title>
 			<SimpleGrid my="xl" cols={3}>
 				{
 					Object.values(tools).map((tool) => (
