@@ -1,7 +1,9 @@
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider} from "@mantine/core";
 import {RouterTransition} from "../components/RouterTransition";
+import Scaffold from "../components/Scaffold";
+import ColorProvider from "../components/ColorContext";
 
 export default function App(props: AppProps) {
   const { Component, pageProps } = props;
@@ -42,7 +44,11 @@ export default function App(props: AppProps) {
           },
         }}
       >
-        <Component {...pageProps} />
+        <ColorProvider>
+          <Scaffold>
+            <Component {...pageProps} />
+          </Scaffold>
+        </ColorProvider>
       </MantineProvider>
     </>
   );

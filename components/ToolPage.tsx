@@ -1,12 +1,19 @@
-import {FC, PropsWithChildren} from "react";
+import {FC, PropsWithChildren, useContext, useEffect} from "react";
 import {ITool} from "./ToolLink";
-import {Anchor, Container, Group, Stack, Text, Title} from "@mantine/core";
+import {Anchor, Group, Stack, Text, Title} from "@mantine/core";
 import Link from "next/link";
 import {ArrowLeft16Regular} from "@fluentui/react-icons";
+import { ColorContext } from "./ColorContext";
 
 const ToolPage: FC<PropsWithChildren<ITool>> = ({title, description, color, children}) => {
+	const {changeColor} = useContext(ColorContext);
+
+	useEffect(() => {
+		changeColor(color);
+	}, [color, changeColor])
+
 	return (
-		<Container my="xl" size="md">
+		<>
 			<Link href="/" passHref>
 				<Anchor component="a">
 					<Group spacing="xs" grow={false}>
@@ -23,8 +30,7 @@ const ToolPage: FC<PropsWithChildren<ITool>> = ({title, description, color, chil
 			</Stack>
 
 			{children}
-
-		</Container>
+		</>
 	)
 }
 

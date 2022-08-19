@@ -24,7 +24,7 @@ const useToolStyles = createStyles((theme) => (
 export interface ITool {
 	value: string;
 	icon?: JSX.Element;
-	color?: MantineColor;
+	color: MantineColor;
 	tooltip?: string;
 	title: string;
 	description: string;

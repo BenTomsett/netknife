@@ -1,8 +1,6 @@
 import {
-	Container,
 	SimpleGrid,
-	Title,
-	Text
+	Title
 } from "@mantine/core";
 import {
 	ArrowForward24Regular,
@@ -11,6 +9,8 @@ import {
 	Search24Regular
 } from "@fluentui/react-icons";
 import ToolLink, {ITool} from "../components/ToolLink";
+import {useContext, useEffect} from "react";
+import {ColorContext} from "../components/ColorContext";
 
 export const tools: { [key: string]: ITool } = {
 	dns: {
@@ -38,7 +38,7 @@ export const tools: { [key: string]: ITool } = {
 	redirect: {
 		value: "redirect",
 		icon: <ArrowForward24Regular />,
-		color: "red",
+		color: "yellow",
 		title: "Redirect checker",
 		description: "Follow a URL's HTTP redirects"
 	},
@@ -53,14 +53,15 @@ export const tools: { [key: string]: ITool } = {
 }
 
 export default function IndexPage() {
-	return (
-		<Container my="xl" size="md">
-			<Title>
-				Net
-				<Text component="span" color="red">Knife</Text>
-			</Title>
-			<Title order={3} style={{fontWeight: 500}}>Swiss Army knife of network-related tools</Title>
+	const {changeColor} = useContext(ColorContext);
 
+	useEffect(() => {
+		changeColor('red');
+	}, [changeColor])
+
+	return (
+		<>
+			<Title order={3} style={{fontWeight: 500}}>Swiss Army knife of network-related tools</Title>
 			<SimpleGrid my="xl" cols={3}>
 				{
 					Object.values(tools).map((tool) => (
@@ -71,6 +72,6 @@ export default function IndexPage() {
 					))
 				}
 			</SimpleGrid>
-		</Container>
+		</>
 	);
 }
