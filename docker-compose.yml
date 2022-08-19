@@ -1,0 +1,11 @@
+version: '3.3'
+services:
+  netknife:
+    container_name: netknife
+    restart: always
+    build: .
+
+networks:
+  default:
+    external:
+      name: nginx
