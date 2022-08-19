@@ -4,8 +4,7 @@ import {
 } from "@mantine/core";
 import {
 	ArrowForward24Regular,
-	Certificate24Regular,
-	GlobePerson24Regular, Password24Regular,
+	GlobePerson24Regular,
 	Search24Regular
 } from "@fluentui/react-icons";
 import ToolLink, {ITool} from "../components/ToolLink";
@@ -27,20 +26,20 @@ export const tools: { [key: string]: ITool } = {
 		title: "WHOIS lookup",
 		description: "Look up a domain's WHOIS records"
 	},
-	ssl: {
-		value: "ssl",
-		icon: <Certificate24Regular />,
-		color: "green",
-		tooltip: "Powered by Qualys",
-		title: "SSL report",
-		description: "Validate a server's SSL certificate"
-	},
 	redirect: {
 		value: "redirect",
 		icon: <ArrowForward24Regular />,
 		color: "yellow",
 		title: "Redirect checker",
 		description: "Follow a URL's HTTP redirects"
+	},
+	/* ssl: {
+		value: "ssl",
+		icon: <Certificate24Regular />,
+		color: "green",
+		tooltip: "Powered by Qualys",
+		title: "SSL report",
+		description: "Validate a server's SSL certificate"
 	},
 	pw: {
 		value: "pw",
@@ -49,7 +48,7 @@ export const tools: { [key: string]: ITool } = {
 		tooltip: "Powered by pwpush.com",
 		title: "Password pusher",
 		description: "Generate and share password"
-	}
+	} */
 }
 
 export default function IndexPage() {
