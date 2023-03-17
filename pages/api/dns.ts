@@ -2,6 +2,9 @@ import type {NextApiRequest, NextApiResponse} from 'next'
 import util from 'node:util';
 import parseDig, {IDigOutput} from "../../utils/parseDig";
 import psl from 'psl';
+import isFQDN from 'validator/lib/isFQDN';
+import NextCors from "nextjs-cors";
+import {spawn} from "child_process";
 
 const exec = util.promisify(require('node:child_process').exec);
 
@@ -14,7 +17,7 @@ const getNameServer = async (domain: string) => {
 }
 
 const getPtrRecord = async (server: string, ip: string) => {
-	const {stdout} = await exec(`dig @${server} -x ${ip}`)
+	const {stdout} = await exec(`dig -x ${ip}`)
 	const parsed = parseDig(stdout);
 	if (parsed.answer && parsed.answer.length >= 1) {
 		return parsed.answer[0].data;
@@ -74,12 +77,18 @@ const getAsn = async (ip: string) => {
 }
 
 const handler = async (req: NextApiRequest, res: NextApiResponse<IDigOutput>) => {
-	const domain = req.query.name as string;
+	await NextCors(req, res, {
+		// Options
+		methods: ['GET'],
+		origin: '*',
+		optionsSuccessStatus: 200,
+	});
+
+	let domain = req.query.name as string;
 	let server = req.query.server as string;
 
-	if (!psl.isValid(domain)) {
-		console.log("invalid domain");
-		return res.status(400).end();
+	if (!isFQDN(domain) || !psl.isValid(domain)) {
+		return res.status(400).end;
 	}
 
 	if (server === "authoritative") {
@@ -90,20 +99,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<IDigOutput>) =>
 		server = await getNameServer(sld);
 	}
 
-	const {stdout} = await exec(`dig ${domain} -t ANY @${server}`);
-	const parsed = parseDig(stdout);
+	let digOutput = '';
+	const dig = await spawn('dig', [domain, '-t', 'ANY', `@${server}`]);
 
-	for (let i = 0; i < parsed.answer.length; i++) {
-		if (parsed.answer[i].type === "A" || parsed.answer[i].type === "AAAA") {
-			parsed.answer[i].ptr = await getPtrRecord(server, parsed.answer[i].data);
-			parsed.answer[i].asn = await getAsn(parsed.answer[i].data);
+	dig.stdout.on('data', (d) => {digOutput += d});
+
+	dig.on('close', async (code) => {
+		if (code !== 0) {
+			return res.status(500).end();
 		}
-	}
 
-	parsed.server = `${server}`;
+		const parsed = parseDig(digOutput);
 
-	res.status(200)
-		.json(parsed);
+		for (let i = 0; i < parsed.answer.length; i++) {
+			if (parsed.answer[i].type === "A" || parsed.answer[i].type === "AAAA") {
+				parsed.answer[i].ptr = await getPtrRecord(server, parsed.answer[i].data);
+				parsed.answer[i].asn = await getAsn(parsed.answer[i].data);
+			}
+		}
+
+		parsed.server = `${server}`;
+
+		res.json(parsed);
+	})
 }
 
 export default handler;

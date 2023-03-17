@@ -22,16 +22,19 @@
     "follow-redirects": "^1.15.1",
     "lodash": "^4.17.21",
     "next": "12.2.5",
+    "nextjs-cors": "^2.1.2",
     "node-dig-dns": "^0.3.2",
     "psl": "^1.9.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "validator": "^13.9.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
     "@types/node": "18.7.2",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
+    "@types/validator": "^13.7.14",
     "eslint": "8.21.0",
     "eslint-config-next": "12.2.5",
     "eslint-plugin-unused-imports": "^2.0.0",
